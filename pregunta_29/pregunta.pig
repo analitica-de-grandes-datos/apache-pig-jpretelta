@@ -33,4 +33,29 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.csv' USING PigStorage(',') AS (
+        id:int, 
+        nombre:chararray, 
+        apellido:chararray,
+        fecha:chararray,
+        color:chararray,
+        codigo:int
+);
 
+lista_fechas = FOREACH datos GENERATE fecha as fechas;
+
+to_date = FOREACH lista_fechas GENERATE ToDate(fechas,'yyyy-MM-dd') as (DT:DateTime);
+
+str = FOREACH to_date GENERATE ToString(DT, 'yyyy-MM-dd') as (fecha_completa:chararray), ToString(DT, 'MMM') as (nombre_del_mes:chararray), ToString(DT, 'MM') as (mes:chararray), ToString(DT, 'M') as (mes_indv:chararray);
+
+subset_data = FOREACH str GENERATE fecha_completa, REPLACE(nombre_del_mes,'Jan','ene') AS nombre_del_mes, mes, mes_indv;
+
+subset_data = FOREACH subset_data GENERATE fecha_completa, REPLACE(nombre_del_mes,'Apr','abr') AS nombre_del_mes, mes, mes_indv;
+
+subset_data = FOREACH subset_data GENERATE fecha_completa, REPLACE(nombre_del_mes,'Aug','ago') AS nombre_del_mes, mes, mes_indv;
+
+subset_data = FOREACH subset_data GENERATE fecha_completa, REPLACE(nombre_del_mes,'Dec','dic') AS nombre_del_mes, mes, mes_indv;
+
+s = FOREACH subset_data GENERATE fecha_completa, LOWER(nombre_del_mes), mes, mes_indv;
+
+STORE s INTO 'output' USING PigStorage(',');
