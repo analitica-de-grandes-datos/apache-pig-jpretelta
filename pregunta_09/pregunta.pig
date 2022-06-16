@@ -39,6 +39,7 @@ datos = LOAD 'data.csv' USING PigStorage(',') AS (
         color: chararray,
         codigo:int
 );
+
 s = FOREACH datos GENERATE CONCAT(nombre,'@',apellido); 
 
 STORE s INTO 'output' USING PigStorage(',');
