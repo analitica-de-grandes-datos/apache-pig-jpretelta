@@ -6,16 +6,16 @@ El archivo `data.csv` tiene la siguiente estructura:
 
   driverId       INT
   truckId        INT
-  eventTime      chararray
-  eventType      chararray
+  eventTime      STRING
+  eventType      STRING
   longitude      DOUBLE
   latitude       DOUBLE
-  eventKey       chararray
-  correlationId  chararray
-  driverName     chararray
+  eventKey       STRING
+  correlationId  STRING
+  driverName     STRING
   routeId        BIGINT
-  routeName      chararray
-  eventDate      chararray
+  routeName      STRING
+  eventDate      STRING
 
 Escriba un script en Pig que carge los datos y obtenga los primeros 10 
 registros del archivo para las primeras tres columnas, y luego, ordenados 
