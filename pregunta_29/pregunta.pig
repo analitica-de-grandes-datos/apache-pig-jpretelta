@@ -46,7 +46,10 @@ lista_fechas = FOREACH datos GENERATE fecha as fechas;
 
 to_date = FOREACH lista_fechas GENERATE ToDate(fechas,'yyyy-MM-dd') as (DT:DateTime);
 
-str = FOREACH to_date GENERATE ToString(DT, 'yyyy-MM-dd') as (fecha_completa:chararray), ToString(DT, 'MMM') as (nombre_del_mes:chararray), ToString(DT, 'MM') as (mes:chararray), ToString(DT, 'M') as (mes_indv:chararray);
+str = FOREACH to_date GENERATE ToString(DT, 'yyyy-MM-dd') as (fecha_completa:chararray), 
+                                ToString(DT, 'MMM') as (nombre_del_mes:chararray), 
+                                ToString(DT, 'MM') as (mes:chararray), 
+                                ToString(DT, 'M') as (mes_indv:chararray);
 
 subset_data = FOREACH str GENERATE fecha_completa, REPLACE(nombre_del_mes,'Jan','ene') AS nombre_del_mes, mes, mes_indv;
 
