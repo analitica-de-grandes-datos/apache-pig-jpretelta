@@ -24,6 +24,6 @@ subset_datos_tupla = FOREACH col GENERATE(letras_aplanadas, pares_aplanados) as 
 
 agrupados = GROUP subset_datos_tupla BY tupla_datos;
 
-contador_pares = FOREACH agrupados GENERATE group, COUNT(subset_datos_tupla);
+contador_pares_agrupados = FOREACH agrupados GENERATE group, COUNT(subset_datos_tupla);
 
-STORE contador_pares INTO 'output' USING PigStorage(',');
+STORE contador_pares_agrupados INTO 'output' USING PigStorage(',');
