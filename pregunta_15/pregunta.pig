@@ -32,4 +32,6 @@ lista_datos = FOREACH datos GENERATE nombre, color;
 
 s = FILTER lista_datos BY color == 'blue' AND nombre MATCHES 'Z.*';
 
-STORE s INTO 'output' USING PigStorage(',');
+format_output = FOREACH s GENERATE CONCAT(nombre, ' ', color);
+
+STORE format_output INTO 'output' USING PigStorage(',');
