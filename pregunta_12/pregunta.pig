@@ -26,4 +26,17 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.csv' USING PigStorage(',') AS (
+        id:int, 
+        nombre:chararray, 
+        apellido:chararray,
+        fecha: chararray,
+        color: chararray,
+        codigo:int
+);
 
+lista_apellidos = FOREACH datos GENERATE (apellido);
+
+s = FILTER lista_apellidos BY (apellido>'D') AND (apellido<'L');
+
+STORE s INTO 'output' USING PigStorage(',');

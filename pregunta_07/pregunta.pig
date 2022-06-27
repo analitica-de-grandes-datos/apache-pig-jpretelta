@@ -14,3 +14,10 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.tsv' AS (letra:chararray, letras:bag{}, pares:map[]);
+
+datos_tokenizados = FOREACH datos GENERATE letra, COUNT_STAR(letras), SIZE(pares);
+
+datos_ordenados = ORDER datos_tokenizados BY $0, $1, $2;
+
+STORE datos_ordenados INTO 'output' USING PigStorage(',');
